@@ -1,0 +1,5 @@
+<resources>
+    <string name="action_label_episode">View show on MyAnimeList</string>
+    <string name="app_name">MAL SeriesGuide Extension</string>
+    <string name="extension_description">View the current content in MyAnimeList</string>
+</resources>
