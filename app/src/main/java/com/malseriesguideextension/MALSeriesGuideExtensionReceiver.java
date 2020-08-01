@@ -1,8 +1,5 @@
 package com.malseriesguideextension;
 
-
-import android.util.Log;
-
 import com.battlelancer.seriesguide.api.SeriesGuideExtension;
 import com.battlelancer.seriesguide.api.SeriesGuideExtensionReceiver;
 

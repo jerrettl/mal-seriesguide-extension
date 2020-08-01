@@ -1,8 +1,6 @@
 package com.malseriesguideextension;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
 
 import com.battlelancer.seriesguide.api.Action;
 import com.battlelancer.seriesguide.api.Episode;
@@ -13,16 +11,21 @@ public class MALSeriesGuideExtensionService extends SeriesGuideExtension {
 
     public MALSeriesGuideExtensionService() {
         super("MALSeriesGuideExtension");
-        Log.d(TAG, "Constructor called");
     }
 
     @Override
     protected void onRequest(int episodeIdentifier, Episode episode) {
-        Log.d(TAG, "onRequest() called");
+        // Get show's title and season to pass to SearchActivity
+        String query = episode.getShowTitle();
+        if (episode.getSeason() > 1) {
+            query = query.concat(" " + getString(R.string.function_word_season) + " " + episode.getSeason());
+        }
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://myanimelist.net"));
+        // Create intent
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra(SearchActivity.SEARCH_QUERY, query);
 
+        // Publish action to SeriesGuide
         publishAction(new Action.Builder(getString(R.string.action_label_episode), episodeIdentifier)
                         .viewIntent(intent).build());
     }
