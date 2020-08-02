@@ -63,6 +63,8 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String text = intent.getStringExtra(SEARCH_QUERY);
         if (text == null) {
+            // If this activity was opened without this extra data, we're actually done here.
+            // There is no search query to give MAL.
             finish();
         }
 
@@ -87,6 +89,7 @@ public class SearchActivity extends AppCompatActivity {
     private void makeApiRequest(String query, final Context context) {
         query = "https://api.jikan.moe/v3/search/anime?q=" + query + "&page=1?limit=10";
 
+        // Set up the request to the internet
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -102,10 +105,17 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // Actually make the request.
         this.queue.add(jsonObjectRequest);
     }
 
 
+    /**
+     * Convert the JSON received from MAL into a usable ArrayList of AnimeSearchResult objects.
+     *
+     * @param json The JSON data to be parsed.
+     * @return A new ArrayList of AnimeSearchResult objects based on the contents of the JSON data.
+     */
     private ArrayList<AnimeSearchResult> parseJson(JSONObject json) {
         JSONArray inList;
         ArrayList<AnimeSearchResult> outList = new ArrayList<>();
