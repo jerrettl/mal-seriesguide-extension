@@ -19,7 +19,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -95,8 +94,10 @@ public class SearchActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 // Set the contents of the RecyclerView to the search results.
                 results = parseJson(response);
-                progressOverlay.setVisibility(View.INVISIBLE);
-                recyclerView.setAdapter(new AnimeAdapter(results, context));
+                if (results != null) {
+                    progressOverlay.setVisibility(View.INVISIBLE);
+                    recyclerView.setAdapter(new AnimeAdapter(results, context));
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -123,18 +124,18 @@ public class SearchActivity extends AppCompatActivity {
         try {
             inList = json.getJSONArray("results");
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < inList.length(); i++) {
                 JSONObject currentItem = inList.getJSONObject(i);
                 AnimeSearchResult newItem = new AnimeSearchResult(
-                    currentItem.getString("title"),
-                    currentItem.getString("url"));
+                        currentItem.getString("title"),
+                        currentItem.getString("url"));
                 outList.add(newItem);
             }
+        }
+        catch (Exception exception) {
+            outList = null;
+        }
 
-            return outList;
-        }
-        catch (JSONException exception) {
-                return null;
-        }
+        return outList;
     }
 }
