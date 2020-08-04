@@ -28,6 +28,7 @@ public class SearchActivity extends AppCompatActivity {
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
 
     private LinearLayout progressOverlay;
+    private LinearLayout errorOverlay;
     private RequestQueue queue;
     private RecyclerView recyclerView;
 
@@ -49,7 +50,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onStart();
 
         progressOverlay = findViewById(R.id.progress_overlay);
-        progressOverlay.setVisibility(View.VISIBLE);
+        errorOverlay = findViewById(R.id.error_overlay);
 
         // Set up RecyclerView (list of anime results).
         recyclerView = findViewById(R.id.recycler_view);
@@ -92,17 +93,13 @@ public class SearchActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                // Set the contents of the RecyclerView to the search results.
                 results = parseJson(response);
-                if (results != null) {
-                    progressOverlay.setVisibility(View.INVISIBLE);
-                    recyclerView.setAdapter(new AnimeAdapter(results, context));
-                }
+                displayResults(context);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.toString());
+                displayError();
             }
         });
 
@@ -137,5 +134,25 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return outList;
+    }
+
+    private void finishLoading() {
+        progressOverlay.setVisibility(View.GONE);
+    }
+
+    private void displayResults(Context context) {
+        // Set the contents of the RecyclerView to the search results.
+        finishLoading();
+        if (results != null) {
+            recyclerView.setAdapter(new AnimeAdapter(results, context));
+        }
+        else {
+            displayError();
+        }
+    }
+
+    private void displayError() {
+        finishLoading();
+        errorOverlay.setVisibility(View.VISIBLE);
     }
 }

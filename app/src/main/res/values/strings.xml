@@ -4,4 +4,5 @@
     <string name="app_name">MAL SeriesGuide Extension</string>
     <string name="extension_description">View the current content in MyAnimeList</string>
     <string name="function_word_season">season</string>
+    <string name="search_error_message">No results.</string>
 </resources>
