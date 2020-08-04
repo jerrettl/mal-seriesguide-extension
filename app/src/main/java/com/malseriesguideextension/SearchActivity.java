@@ -1,5 +1,6 @@
 package com.malseriesguideextension;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,9 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "MALSeriesGuideExtension";
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
+    public static final String STATE_QUERY = "query";
+
+    private String query;
 
     private LinearLayout progressOverlay;
     private LinearLayout errorOverlay;
@@ -39,8 +43,9 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        // Initialize Volley RequestQueue (to make GET request for search).
-        queue = Volley.newRequestQueue(this);
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString(STATE_QUERY);
+        }
     }
 
 
@@ -48,8 +53,13 @@ public class SearchActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // Initialize Volley RequestQueue (to make GET request for search).
+        queue = Volley.newRequestQueue(this);
+
         progressOverlay = findViewById(R.id.progress_overlay);
         errorOverlay = findViewById(R.id.error_overlay);
+
+        startLoading();
 
         // Set up RecyclerView (list of anime results).
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -61,25 +71,39 @@ public class SearchActivity extends AppCompatActivity {
         animeAdapter = new AnimeAdapter(results, this);
         recyclerView.setAdapter(animeAdapter);
 
-
-        // Grab the information to be searched from the intent.
-        Intent intent = getIntent();
-        String text = intent.getStringExtra(SEARCH_QUERY);
-        if (text == null) {
-            // If this activity was opened without this extra data, we're actually done here.
-            // There is no search query to give MAL.
+        if (query == null) {
+            // If the activity was opened without already having restored the query, this must be a
+            // fresh instance. In this case, grab the information to be searched from the intent.
+            Intent intent = getIntent();
+            query = intent.getStringExtra(SEARCH_QUERY);
+        }
+        if (query == null) {
+            // If we open the activity, there's nothing restored, and there was no extra data from
+            // the intent, there is nothing to do and we will close.
             finish();
         }
 
-        makeApiRequest(text);
+        makeApiRequest(query);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Save the query so we can restore it later.
+        outState.putString(STATE_QUERY, query);
+    }
 
     @Override
     protected void onStop() {
@@ -135,6 +159,10 @@ public class SearchActivity extends AppCompatActivity {
                     currentItem.getString("url"));
             list.add(newItem);
         }
+    }
+
+    private void startLoading() {
+        progressOverlay.setVisibility(View.VISIBLE);
     }
 
     /**
