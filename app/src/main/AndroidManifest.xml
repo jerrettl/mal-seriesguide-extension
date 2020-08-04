@@ -16,7 +16,6 @@
         <activity android:name=".SearchActivity"
             android:label="@string/activity_search_title"
             android:exported="true"
-            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:finishOnTaskLaunch="true"/>
 
