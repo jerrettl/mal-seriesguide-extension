@@ -5,8 +5,8 @@ public class AnimeSearchResult {
     private String url;
 
     public AnimeSearchResult(String name, String url) {
-        this.name = name;
-        this.url = url;
+        setName(name);
+        setUrl(url);
     }
 
     public void setName(String name) {
