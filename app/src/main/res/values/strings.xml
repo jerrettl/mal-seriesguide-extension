@@ -4,5 +4,14 @@
     <string name="app_name">MAL SeriesGuide Extension</string>
     <string name="extension_description">View the current content in MyAnimeList</string>
     <string name="function_word_season">season</string>
+    <string name="label_icon">Icon</string>
     <string name="search_error_message">No results.</string>
+    <string name="text_main1">Hello!</string>
+    <string name="text_main2">
+        Thank you for installing my app!\n\nThis is my first attempt to make an Android app, so if
+        there are any issues, please feel free to send me a message! This app was made out of a
+        personal desire to get to MyAnimeList faster right from SeriesGuide, so I decided I would
+        make this! I\'m sure I\'m not the only person that wanted this, so I shared it with the
+        world too! Enjoy!
+    </string>
 </resources>
