@@ -7,10 +7,10 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull AnimeAdapter.ViewHolder holder, int position) {
         final AnimeSearchResult result = results.get(position);
         holder.title.setText(result.getName());
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a new onClick listener that will bring the user to the URL as provided
@@ -89,12 +89,12 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
-        public CardView cardView;
+        public LinearLayout item;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
-            cardView = itemView.findViewById(R.id.card_view);
+            item = itemView.findViewById(R.id.item);
         }
     }
 }
