@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -25,7 +24,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
-    private static final String TAG = "MALSeriesGuideExtension";
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
     public static final String STATE_QUERY = "query";
 
