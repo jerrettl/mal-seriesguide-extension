@@ -92,7 +92,7 @@ public class SearchActivity extends AppCompatActivity {
             finish();
         }
 
-        makeApiRequest(query);
+        makeApiRequest();
     }
 
 
@@ -121,7 +121,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    private void makeApiRequest(String query) {
+    private void makeApiRequest() {
         query = "https://api.jikan.moe/v3/search/anime?q=" + query + "&page=1?limit=10";
 
         // Set up the request to the internet
