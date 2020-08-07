@@ -1,9 +1,11 @@
 package com.malseriesguideextension;
 
+import android.content.Context;
 import android.content.Intent;
 
 import com.battlelancer.seriesguide.api.Action;
 import com.battlelancer.seriesguide.api.Episode;
+import com.battlelancer.seriesguide.api.Movie;
 import com.battlelancer.seriesguide.api.SeriesGuideExtension;
 
 public class MALSeriesGuideExtensionService extends SeriesGuideExtension {
@@ -28,12 +30,27 @@ public class MALSeriesGuideExtensionService extends SeriesGuideExtension {
             query = query.concat(" " + getString(R.string.function_word_season) + " " + episode.getSeason());
         }
 
-        // Create intent
-        Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra(SearchActivity.SEARCH_QUERY, query);
+        Intent intent = createIntent(this, query);
 
         // Publish action to SeriesGuide
         publishAction(new Action.Builder(getString(R.string.action_label_episode), episodeIdentifier)
                         .viewIntent(intent).build());
+    }
+
+    @Override
+    protected void onRequest(int movieIdentifier, Movie movie) {
+        // Get movie's title to pass to SearchActivity
+        String query = movie.getTitle();
+        Intent intent = createIntent(this, query);
+
+        // Publish action to SeriesGuide
+        publishAction(new Action.Builder(getString(R.string.action_label_movie), movieIdentifier)
+                .viewIntent(intent).build());
+    }
+
+    private Intent createIntent(Context context, String query) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra(SearchActivity.SEARCH_QUERY, query);
+        return intent;
     }
 }
