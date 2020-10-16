@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.android.volley.Request;
@@ -120,10 +121,10 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void makeApiRequest() {
-        query = "https://api.jikan.moe/v3/search/anime?q=" + query + "&page=1?limit=10";
+        String urlquery = "https://api.jikan.moe/v3/search/anime?q=" + query + "&page=1?limit=10";
 
         // Set up the request to the internet
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlquery, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 // We got a list of results, let's do something with them.
@@ -170,6 +171,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void startLoading() {
         progressOverlay.setVisibility(View.VISIBLE);
+        errorOverlay.setVisibility(View.GONE);
     }
 
     /**
@@ -193,5 +195,13 @@ public class SearchActivity extends AppCompatActivity {
     private void displayError() {
         finishLoading();
         errorOverlay.setVisibility(View.VISIBLE);
+
+        Button b = findViewById(R.id.button_try_again);
+        b.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startLoading();
+                makeApiRequest();
+            }
+        });
     }
 }

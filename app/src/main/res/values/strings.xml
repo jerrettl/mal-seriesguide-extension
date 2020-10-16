@@ -7,6 +7,7 @@
     <string name="function_word_season">season</string>
     <string name="label_icon">Icon</string>
     <string name="search_error_message">No results.</string>
+    <string name="button_label_try_again">Try again</string>
     <string name="text_main1">Hello!</string>
     <string name="text_main2">
         Thank you for installing my app!\n\nThis is my first attempt to make an Android app, so if
