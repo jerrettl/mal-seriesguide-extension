@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity {
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
     public static final String STATE_QUERY = "query";
+    public static final String TAG = "MALSearchActivity";
 
     private String query;
 
@@ -135,14 +137,14 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 catch (Exception exception) {
                     // If something goes wrong during parsing, assume an error.
-                    displayError();
+                    displayError(exception);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // We weren't able to get the results. Tell the user as such.
-                displayError();
+                displayError(error);
             }
         });
 
@@ -203,5 +205,11 @@ public class SearchActivity extends AppCompatActivity {
                 makeApiRequest();
             }
         });
+    }
+
+    private void displayError(Exception exception)
+    {
+        Log.e(TAG, "Error occurred in search. " + exception.getMessage(), exception);
+        displayError();
     }
 }
