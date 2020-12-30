@@ -1,0 +1,9 @@
+<resources>
+    <string-array name="settings_entries">
+        <item>Debugging Mode</item>
+    </string-array>
+
+    <string-array name="settings_values">
+        <item>debug</item>
+    </string-array>
+</resources>

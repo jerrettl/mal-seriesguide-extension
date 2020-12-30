@@ -1,6 +1,7 @@
 <resources>
     <string name="action_label_episode">View show on MyAnimeList</string>
     <string name="action_label_movie">View movie on MyAnimeList</string>
+    <string name="action_settings">Settings</string>
     <string name="activity_search_title">Search on MAL</string>
     <string name="app_name">MAL SeriesGuide Extension</string>
     <string name="extension_description">View the current content in MyAnimeList</string>
