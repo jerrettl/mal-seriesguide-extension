@@ -8,6 +8,8 @@
     <string name="label_icon">Icon</string>
     <string name="search_error_message">No results.</string>
     <string name="button_label_try_again">Try again</string>
+    <string name="settings_debugging">Debugging Mode</string>
+    <string name="settings_debugging_summary">Enables extra debugging information.</string>
     <string name="text_main1">Hello!</string>
     <string name="text_main2">
         Thank you for installing my app!\n\nThis is my first attempt to make an Android app, so if
@@ -16,4 +18,5 @@
         make this! I\'m sure I\'m not the only person that wanted this, so I shared it with the
         world too! Enjoy!
     </string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

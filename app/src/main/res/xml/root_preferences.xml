@@ -1,0 +1,9 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="debugging"
+        app:defaultValue="false"
+        app:title="@string/settings_debugging"
+        app:summary="@string/settings_debugging_summary" />
+
+</PreferenceScreen>

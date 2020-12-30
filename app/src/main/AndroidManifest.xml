@@ -13,11 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SearchActivity"
-            android:label="@string/activity_search_title"
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:launchMode="singleInstance" />
+
+        <activity
+            android:name=".SearchActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
-            android:finishOnTaskLaunch="true"/>
+            android:finishOnTaskLaunch="true"
+            android:label="@string/activity_search_title"
+            android:launchMode="singleInstance" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
