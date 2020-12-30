@@ -3,16 +3,21 @@ package com.malseriesguideextension;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SearchActivity extends AppCompatActivity {
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
@@ -141,14 +147,14 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 catch (Exception exception) {
                     // If something goes wrong during parsing, assume an error.
-                    displayError(exception);
+                    displayError(exception, "JSON string parsing");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // We weren't able to get the results. Tell the user as such.
-                displayError(error);
+                displayError(error, "Volley response");
             }
         });
 
@@ -211,9 +217,21 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void displayError(Exception exception)
+    private void displayError(Exception exception, String context)
     {
-        Log.e(TAG, "Error occurred in search. " + exception.getMessage(), exception);
+        Log.e(TAG,
+                "Error occurred in " + context + ".\n" + exception.getMessage() + "\n" + Arrays.toString(exception.getStackTrace()),
+                exception);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean debuggingMode = sharedPreferences.getBoolean("debugging", false);
+
+        if (debuggingMode) {
+            TextView errorText = findViewById(R.id.error_text);
+            errorText.setGravity(Gravity.LEFT);
+            errorText.setText("App version: " + BuildConfig.VERSION_NAME + "\nDevice: " + Build.MANUFACTURER + " " + Build.MODEL + " " + Build.PRODUCT + "\n\nError occurred in " + context + ".\n" + exception.getMessage() + "\n" + Arrays.toString(exception.getStackTrace()));
+        }
+
         displayError();
     }
 }
