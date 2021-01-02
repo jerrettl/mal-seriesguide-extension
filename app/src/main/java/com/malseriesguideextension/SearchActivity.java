@@ -30,6 +30,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -134,7 +136,15 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void makeApiRequest() {
-        String urlquery = "https://api.jikan.moe/v3/search/anime?q=" + query + "&page=1?limit=10";
+        // Encode query for HTML.
+        String sanitizedQuery;
+        try {
+            sanitizedQuery = URLEncoder.encode(query, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            sanitizedQuery = query;
+        }
+        String urlquery = "https://api.jikan.moe/v3/search/anime?q=" + sanitizedQuery + "&page=1?limit=10";
 
         // Set up the request to the internet
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlquery, null, new Response.Listener<JSONObject>() {
