@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -217,6 +218,7 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void displayError(Exception exception, String context)
     {
         Log.e(TAG,
@@ -229,7 +231,10 @@ public class SearchActivity extends AppCompatActivity {
         if (debuggingMode) {
             TextView errorText = findViewById(R.id.error_text);
             errorText.setGravity(Gravity.LEFT);
-            errorText.setText("App version: " + BuildConfig.VERSION_NAME + "\nDevice: " + Build.MANUFACTURER + " " + Build.MODEL + " " + Build.PRODUCT + "\n\nError occurred in " + context + ".\n" + exception.getMessage() + "\n" + Arrays.toString(exception.getStackTrace()));
+            errorText.setText("App version: " + BuildConfig.VERSION_NAME +
+                    "\nSDK version: " + Build.VERSION.SDK_INT + " (" + Build.VERSION.RELEASE + ")" +
+                    "\nDevice: " + Build.MANUFACTURER + " " + Build.MODEL + " " + Build.PRODUCT +
+                    "\n\nError occurred in " + context + ".\n" + exception.getMessage() + "\n" + Arrays.toString(exception.getStackTrace()));
         }
 
         displayError();
