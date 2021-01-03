@@ -55,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
+        Toolbar toolbar = findViewById(R.id.toolbar_search);
         setSupportActionBar(toolbar);
 
         if (savedInstanceState != null) {
