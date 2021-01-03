@@ -1,9 +1,13 @@
 <resources>
-    <string-array name="settings_entries">
-        <item>Debugging Mode</item>
+    <string-array name="ui_theme_entries">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System default</item>
     </string-array>
 
-    <string-array name="settings_values">
-        <item>debug</item>
+    <string-array name="ui_theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
     </string-array>
 </resources>

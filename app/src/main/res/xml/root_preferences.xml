@@ -1,5 +1,12 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ListPreference
+        app:key="ui_theme"
+        app:persistent="true"
+        app:defaultValue="system"
+        app:title="@string/settings_ui_theme"
+        app:useSimpleSummaryProvider="true" />
+
     <SwitchPreferenceCompat
         app:key="debugging"
         app:defaultValue="false"

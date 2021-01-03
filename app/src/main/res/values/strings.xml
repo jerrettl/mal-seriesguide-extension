@@ -11,6 +11,7 @@
     <string name="button_label_try_again">Try again</string>
     <string name="settings_debugging">Debugging Mode</string>
     <string name="settings_debugging_summary">Enables extra debugging information.</string>
+    <string name="settings_ui_theme">Theme</string>
     <string name="text_main1">Hello!</string>
     <string name="text_main2">
         Thank you for installing my app!\n\nThis is my first attempt to make an Android app, so if
