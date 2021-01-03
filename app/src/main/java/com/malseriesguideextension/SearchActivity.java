@@ -228,7 +228,7 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "RtlHardcoded"})
     private void displayError(Exception exception, String context)
     {
         Log.e(TAG,
