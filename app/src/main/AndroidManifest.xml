@@ -15,6 +15,7 @@
 
         <activity
             android:name=".SettingsActivity"
+            android:exported="true"
             android:label="@string/title_activity_settings" />
 
         <activity
@@ -39,6 +40,8 @@
             <intent-filter>
                 <action android:name="com.battlelancer.seriesguide.api.SeriesGuideExtension" />
             </intent-filter>
+            <meta-data android:name="settingsActivity"
+                android:value=".SettingsActivity" />
         </receiver>
 
         <service
