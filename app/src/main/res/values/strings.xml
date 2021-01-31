@@ -20,5 +20,6 @@
         make this. I\'m sure I\'m not the only person that wanted this, so I shared it with the
         world too! Enjoy!
     </string>
+    <string name="text_copied_to_clipboard">Copied to clipboard</string>
     <string name="title_activity_settings">Settings</string>
 </resources>

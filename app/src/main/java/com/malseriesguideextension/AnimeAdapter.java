@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.malseriesguideextension.helpers.ClipboardHelper;
+import com.malseriesguideextension.helpers.ToastHelper;
+
 import java.util.ArrayList;
 
 
@@ -71,6 +74,15 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(result.getUrl()));
                 context.startActivity(intent);
+            }
+        });
+        holder.item.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardHelper.copyText(result.getUrl(), context);
+                String toastText = context.getString(R.string.text_copied_to_clipboard) + ": " + result.getUrl();
+                ToastHelper.makeToast(toastText, context);
+                return true;
             }
         });
     }
