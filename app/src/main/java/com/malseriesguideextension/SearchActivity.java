@@ -47,6 +47,8 @@ public class SearchActivity extends AppCompatActivity {
     private LinearLayout errorOverlay;
     private RequestQueue queue;
     private AnimeAdapter animeAdapter;
+    private RecyclerView recyclerView;
+    private DividerItemDecoration mDividerItemDecoration;
 
     private ArrayList<AnimeSearchResult> results;
 
@@ -77,19 +79,7 @@ public class SearchActivity extends AppCompatActivity {
         errorOverlay = findViewById(R.id.error_overlay);
 
         startLoading();
-
-        // Set up RecyclerView (list of anime results).
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        // Set up LayoutManager.
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // Add dividers between items in the LinearLayoutManager.
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                layoutManager.getOrientation());
-        recyclerView.addItemDecoration(mDividerItemDecoration);
+        initializeRecyclerView();
 
         // Create results array and attach the data to an adapter, then the adapter to the RecyclerView.
         results = new ArrayList<>();
@@ -136,6 +126,30 @@ public class SearchActivity extends AppCompatActivity {
         queue.stop();
     }
 
+    private void resetRecyclerView()
+    {
+        while (recyclerView.getItemDecorationCount() > 0) {
+            recyclerView.removeItemDecorationAt(0);
+        }
+    }
+
+    private void initializeRecyclerView()
+    {
+        // Set up RecyclerView (list of anime results).
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        resetRecyclerView();
+
+        // Set up LayoutManager.
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Add dividers between items in the LinearLayoutManager.
+        mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(mDividerItemDecoration);
+    }
 
     private void makeApiRequest() {
         // Encode query for HTML.
