@@ -38,12 +38,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Listen for changes in settings.
             SharedPreferences.OnSharedPreferenceChangeListener listener =
-                    new SharedPreferences.OnSharedPreferenceChangeListener() {
-                        @Override
-                        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                            if (key.equals("ui_theme")) {
-                                ThemeHelper.applyThemePreference(sharedPreferences);
-                            }
+                    (sharedPreferences, key) -> {
+                        if (key.equals("ui_theme")) {
+                            ThemeHelper.applyThemePreference(sharedPreferences);
                         }
                     };
 

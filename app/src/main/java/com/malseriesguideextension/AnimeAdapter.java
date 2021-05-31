@@ -66,24 +66,18 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull AnimeAdapter.ViewHolder holder, int position) {
         final AnimeSearchResult result = results.get(position);
         holder.title.setText(result.getName());
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create a new onClick listener that will bring the user to the URL as provided
-                // from the search result.
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(result.getUrl()));
-                context.startActivity(intent);
-            }
+        holder.item.setOnClickListener(v -> {
+            // Create a new onClick listener that will bring the user to the URL as provided
+            // from the search result.
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(result.getUrl()));
+            context.startActivity(intent);
         });
-        holder.item.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ClipboardHelper.copyText(result.getUrl(), context);
-                String toastText = context.getString(R.string.text_copied_to_clipboard) + ": " + result.getUrl();
-                ToastHelper.makeToast(toastText, context);
-                return true;
-            }
+        holder.item.setOnLongClickListener(v -> {
+            ClipboardHelper.copyText(result.getUrl(), context);
+            String toastText = context.getString(R.string.text_copied_to_clipboard) + ": " + result.getUrl();
+            ToastHelper.makeToast(toastText, context);
+            return true;
         });
     }
 

@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.malseriesguideextension.helpers.ThemeHelper;
@@ -162,26 +160,20 @@ public class SearchActivity extends AppCompatActivity {
         String urlquery = "https://api.jikan.moe/v3/search/anime?q=" + sanitizedQuery + "&page=1?limit=10";
 
         // Set up the request to the internet
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlquery, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                // We got a list of results, let's do something with them.
-                try {
-                    // Parse the JSON and display it.
-                    parseJson(results, response);
-                    displayResults();
-                }
-                catch (Exception exception) {
-                    // If something goes wrong during parsing, assume an error.
-                    displayError(exception, "JSON string parsing");
-                }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlquery, null, response -> {
+            // We got a list of results, let's do something with them.
+            try {
+                // Parse the JSON and display it.
+                parseJson(results, response);
+                displayResults();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // We weren't able to get the results. Tell the user as such.
-                displayError(error, "Volley response");
+            catch (Exception exception) {
+                // If something goes wrong during parsing, assume an error.
+                displayError(exception, "JSON string parsing");
             }
+        }, error -> {
+            // We weren't able to get the results. Tell the user as such.
+            displayError(error, "Volley response");
         });
 
         // Actually make the request.
@@ -235,11 +227,9 @@ public class SearchActivity extends AppCompatActivity {
         errorOverlay.setVisibility(View.VISIBLE);
 
         Button b = findViewById(R.id.button_try_again);
-        b.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                startLoading();
-                makeApiRequest();
-            }
+        b.setOnClickListener(v -> {
+            startLoading();
+            makeApiRequest();
         });
     }
 
