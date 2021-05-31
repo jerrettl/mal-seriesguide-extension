@@ -48,7 +48,6 @@ public class SearchActivity extends AppCompatActivity {
     private RequestQueue queue;
     private AnimeAdapter animeAdapter;
     private RecyclerView recyclerView;
-    private DividerItemDecoration mDividerItemDecoration;
 
     private ArrayList<AnimeSearchResult> results;
 
@@ -146,9 +145,9 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // Add dividers between items in the LinearLayoutManager.
-        mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+        DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
-        recyclerView.addItemDecoration(mDividerItemDecoration);
+        recyclerView.addItemDecoration(divider);
     }
 
     private void makeApiRequest() {
