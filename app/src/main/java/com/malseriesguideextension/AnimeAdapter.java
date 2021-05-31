@@ -23,17 +23,13 @@ import java.util.ArrayList;
  * SearchActivity.
  */
 public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> {
-    // ==== Fields ====
     private ArrayList<AnimeSearchResult> results;
     private Context context;
 
-    // ==== Constructors ====
     public AnimeAdapter(ArrayList<AnimeSearchResult> results, Context context) {
         this.results = results;
         this.context = context;
     }
-
-    // ==== Methods ====
 
     /**
      * This is called by the RecyclerView. This creates a new ViewHolder to represent our result
