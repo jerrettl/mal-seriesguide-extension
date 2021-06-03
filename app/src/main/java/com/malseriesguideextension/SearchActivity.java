@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.malseriesguideextension.helpers.ThemeHelper;
+import com.malseriesguideextension.viewmodel.ResultViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,8 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     private AnimeAdapter animeAdapter;
     private RecyclerView recyclerView;
 
-    private ArrayList<AnimeSearchResult> results;
-
+    private ResultViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,8 @@ public class SearchActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             query = savedInstanceState.getString(STATE_QUERY);
         }
+
+        model = new ViewModelProvider(this).get(ResultViewModel.class);
     }
 
 
@@ -80,8 +83,10 @@ public class SearchActivity extends AppCompatActivity {
         initializeRecyclerView();
 
         // Create results array and attach the data to an adapter, then the adapter to the RecyclerView.
-        results = new ArrayList<>();
-        animeAdapter = new AnimeAdapter(results, this);
+        if (model.getResults() == null) {
+            model.setResults(new ArrayList<>());
+        }
+        animeAdapter = new AnimeAdapter(model.getResults(), this);
         recyclerView.setAdapter(animeAdapter);
 
         if (query == null) {
@@ -96,7 +101,13 @@ public class SearchActivity extends AppCompatActivity {
             finish();
         }
 
-        makeApiRequest();
+        // Check if any data's already been retrieved. If so, skip the API call.
+        if (model.getResults().size() == 0) {
+            makeApiRequest();
+        }
+        else {
+            displayResults();
+        }
     }
 
 
@@ -165,7 +176,7 @@ public class SearchActivity extends AppCompatActivity {
             // We got a list of results, let's do something with them.
             try {
                 // Parse the JSON and display it.
-                parseJson(results, response);
+                parseJson(model.getResults(), response);
                 displayResults();
             }
             catch (Exception exception) {
