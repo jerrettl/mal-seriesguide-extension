@@ -33,6 +33,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
@@ -182,12 +183,12 @@ public class SearchActivity extends AppCompatActivity {
 
 
     /**
-     * Parse JSON results into AnimeSearchResult objects, then add them to a provided ArrayList.
+     * Parse JSON results into AnimeSearchResult objects, then add them to a provided List.
      *
-     * @param list The ArrayList to add items to.
+     * @param list The List to add items to.
      * @param json The JSON data to be parsed.
      */
-    private void parseJson(ArrayList<AnimeSearchResult> list, JSONObject json) throws Exception {
+    private void parseJson(List<AnimeSearchResult> list, JSONObject json) throws Exception {
         JSONArray inList = json.getJSONArray("results");
 
         for (int i = 0; i < inList.length(); i++) {

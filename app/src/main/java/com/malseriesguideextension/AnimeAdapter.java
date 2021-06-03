@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.malseriesguideextension.helpers.ClipboardHelper;
 import com.malseriesguideextension.helpers.ToastHelper;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -23,10 +23,10 @@ import java.util.ArrayList;
  * SearchActivity.
  */
 public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> {
-    private ArrayList<AnimeSearchResult> results;
+    private List<AnimeSearchResult> results;
     private Context context;
 
-    public AnimeAdapter(ArrayList<AnimeSearchResult> results, Context context) {
+    public AnimeAdapter(List<AnimeSearchResult> results, Context context) {
         this.results = results;
         this.context = context;
     }
