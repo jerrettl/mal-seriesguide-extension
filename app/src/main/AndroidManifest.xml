@@ -50,4 +50,9 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
+    <queries>
+        <package android:name="com.battlelancer.seriesguide" />
+        <package android:name="com.uwetrottmann.seriesguide.amzn" />
+    </queries>
+
 </manifest>
