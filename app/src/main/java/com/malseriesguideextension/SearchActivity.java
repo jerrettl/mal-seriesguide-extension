@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -41,6 +42,9 @@ public class SearchActivity extends AppCompatActivity {
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
     public static final String STATE_QUERY = "query";
     public static final String TAG = "MALSearchActivity";
+
+    private static final int SOCKET_TIMEOUT_MS = 10000;
+    private static final int DEFAULT_MAX_RETRIES = 0;
 
     private String query;
 
@@ -187,6 +191,8 @@ public class SearchActivity extends AppCompatActivity {
             // We weren't able to get the results. Tell the user as such.
             displayError(error, "Volley response");
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(SOCKET_TIMEOUT_MS, DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonObjectRequest.setTag(TAG);
 
         // Actually make the request.
         this.queue.add(jsonObjectRequest);
