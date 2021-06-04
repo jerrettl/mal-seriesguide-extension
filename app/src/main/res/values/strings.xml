@@ -7,7 +7,7 @@
     <string name="extension_description">View the current content in MyAnimeList</string>
     <string name="function_word_season">season</string>
     <string name="label_icon">Icon</string>
-    <string name="search_error_message">No results.</string>
+    <string name="search_error_message">An error has occurred.</string>
     <string name="button_label_try_again">Try again</string>
     <string name="settings_debugging">Debugging Mode</string>
     <string name="settings_debugging_summary">Enables extra debugging information.</string>
