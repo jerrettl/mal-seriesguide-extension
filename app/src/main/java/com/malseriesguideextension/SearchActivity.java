@@ -23,9 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.malseriesguideextension.helpers.ThemeHelper;
 import com.malseriesguideextension.viewmodel.ResultViewModel;
 
@@ -50,7 +48,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private LinearLayout progressOverlay;
     private LinearLayout errorOverlay;
-    private RequestQueue queue;
     private AnimeAdapter animeAdapter;
     private RecyclerView recyclerView;
 
@@ -77,13 +74,9 @@ public class SearchActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // Initialize Volley RequestQueue (to make GET request for search).
-        queue = Volley.newRequestQueue(this);
-
         progressOverlay = findViewById(R.id.progress_overlay);
         errorOverlay = findViewById(R.id.error_overlay);
 
-        startLoading();
         initializeRecyclerView();
 
         // Create results array and attach the data to an adapter, then the adapter to the RecyclerView.
@@ -105,12 +98,25 @@ public class SearchActivity extends AppCompatActivity {
             finish();
         }
 
-        // Check if any data's already been retrieved. If so, skip the API call.
-        if (model.getResults().size() == 0) {
-            makeApiRequest();
+        if (!model.getIsLoading()) {
+            // The app is not considered loading. This means the activity was just opened fresh,
+            // or the results have already been retrieved.
+            // If there are already results, skip the API call.
+            if (model.getResults().size() == 0) {
+                model.setIsLoading(true);
+                startLoading();
+                makeApiRequest();
+            } else {
+                displayResults();
+            }
         }
         else {
-            displayResults();
+            // We must still be loading from before this activity was created.
+            // For now, restart the request. There is no way of knowing what the status of the
+            // last request was.
+            model.resetQueue(TAG);
+            startLoading();
+            makeApiRequest();
         }
     }
 
@@ -136,7 +142,6 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        queue.stop();
     }
 
     private void resetRecyclerView()
@@ -195,7 +200,12 @@ public class SearchActivity extends AppCompatActivity {
         jsonObjectRequest.setTag(TAG);
 
         // Actually make the request.
-        this.queue.add(jsonObjectRequest);
+        try {
+            model.addToQueue(jsonObjectRequest);
+        }
+        catch (Exception exception) {
+            displayError(exception, "Adding to queue");
+        }
     }
 
 
@@ -226,6 +236,7 @@ public class SearchActivity extends AppCompatActivity {
      * Remove anything on the screen that indicates we were loading something.
      */
     private void finishLoading() {
+        model.setIsLoading(false);
         progressOverlay.setVisibility(View.GONE);
     }
 
