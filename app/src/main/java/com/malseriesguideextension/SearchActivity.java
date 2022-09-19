@@ -34,7 +34,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
     public static final String SEARCH_QUERY = "com.malseriesguideextension.SEARCH_QUERY";
@@ -178,7 +180,7 @@ public class SearchActivity extends AppCompatActivity {
         catch (UnsupportedEncodingException e) {
             sanitizedQuery = query;
         }
-        String urlquery = "https://api.jikan.moe/v3/search/anime?q=" + sanitizedQuery + "&page=1?limit=10";
+        String urlquery = "https://api.myanimelist.net/v2/anime?q=" + sanitizedQuery + "&limit=10";
 
         // Set up the request to the internet
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlquery, null, response -> {
@@ -195,7 +197,15 @@ public class SearchActivity extends AppCompatActivity {
         }, error -> {
             // We weren't able to get the results. Tell the user as such.
             displayError(error, "Volley response");
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("X-MAL-CLIENT-ID", BuildConfig.MalApiClientId);
+
+                return headers;
+            }
+        };
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(SOCKET_TIMEOUT_MS, DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         jsonObjectRequest.setTag(TAG);
 
@@ -216,13 +226,14 @@ public class SearchActivity extends AppCompatActivity {
      * @param json The JSON data to be parsed.
      */
     private void parseJson(List<AnimeSearchResult> list, JSONObject json) throws Exception {
-        JSONArray inList = json.getJSONArray("results");
+        String baseUrl = "https://myanimelist.net/anime/";
+        JSONArray inList = json.getJSONArray("data");
 
         for (int i = 0; i < inList.length(); i++) {
-            JSONObject currentItem = inList.getJSONObject(i);
+            JSONObject currentItem = inList.getJSONObject(i).getJSONObject("node");
             AnimeSearchResult newItem = new AnimeSearchResult(
                     currentItem.getString("title"),
-                    currentItem.getString("url"));
+                    baseUrl + Integer.toString(currentItem.getInt("id")));
             list.add(newItem);
         }
     }
