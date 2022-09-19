@@ -1,4 +1,4 @@
-# **Note:** Due to changes in the Jikan API, as of September 1, 2022, search results may break or not work as expected. I am currently looking into alternatives to Jikan, but this may likely involve a major application rewrite to restore functionality.
+# **Note:** Due to changes in the Jikan API, as of September 1, 2022, search results may break or not work as expected. I am currently looking into alternatives to Jikan.
 
 # MyAnimeList SeriesGuide Extension
 
